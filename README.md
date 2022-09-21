@@ -23,7 +23,7 @@ string uriString = UriTemplate.For("http://example.org/{resource}{?genre,count}"
                               .WithParameter("genre", "sci-fi")
                               .WithParameter("count", 10)
                               .ExpandToString();
-uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi&count=10");
+uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi&count=10");
 ```
 
 You can pass a string list:
@@ -33,7 +33,7 @@ string uriString = UriTemplate.For("http://example.org/{resource}{?genre}")
                               .WithParameter("resource", "books")
                               .WithParameter("genre", "sci-fi", "horror", "fantasy")
                               .ExpandToString();
-uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi,horror,fantasy");
+uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi,horror,fantasy");
 ```
 
 ```csharp
@@ -41,7 +41,7 @@ string uriString = UriTemplate.For("http://example.org/{resource}{?genre*}")
                               .WithParameter("resource", "books")
                               .WithParameter("genre", "sci-fi", "horror", "fantasy")
                               .ExpandToString();
-uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi&genre=horror&genre=fantasy");
+uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi&genre=horror&genre=fantasy");
 ```
 
 Or a string dictionary:
@@ -58,7 +58,7 @@ string uriString = UriTemplate.For("http://example.org/{resource}{?options*}")
                               .WithParameter("resource", "books")
                               .WithParameter("options", options)
                               .ExpandToString();
-uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi&count=10&author=George%20R.%20R.%20Martin");
+uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi&count=10&author=George%20R.%20R.%20Martin");
 ```
 
 When a parameter is not set, it simply removes it:
@@ -68,7 +68,7 @@ string uriString = UriTemplate.For("http://example.org/{resource}{?genre,count}"
                               .WithParameter("resource", "books")
                               .WithParameter("count", 10)
                               .ExpandToString();
-uriString.ShouldBeEquivalentTo("http://example.org/books?count=10");
+uriString.Should().BeEquivalentTo("http://example.org/books?count=10");
 ```
 
 `DoLess.UriTemplates` supports the following parameter types:
@@ -97,7 +97,7 @@ string uriString = UriTemplate.For("http://example.org{/vector}")
                               .WithValueFormatter(func)
                               .ExpandToString();
 
-uriString.ShouldBeEquivalentTo("http://example.org/%283%2C4%29");
+uriString.Should().BeEquivalentTo("http://example.org/%283%2C4%29");
 ```
 
 ## Partial Expand
@@ -118,7 +118,7 @@ string uriString = UriTemplate.For("http://example.org/{area}/news{?type,count}"
                               .WithParameter("count", 10)
                               .WithPartialExpand()
                               .ExpandToString();
-uriString.ShouldBeEquivalentTo("http://example.org/{area}/news?count=10{&type}");
+uriString.Should().BeEquivalentTo("http://example.org/{area}/news?count=10{&type}");
 ```
 
 ## Query Object
@@ -152,7 +152,7 @@ var result = UriTemplate.For("/api{?filters*}")
                         .WithParameter("filters", filters)
                         .ExpandToString();
 
-result.ShouldBeEquivalentTo("/api?year=1988&genres=action,adventure");
+result.Should().BeEquivalentTo("/api?year=1988&genres=action,adventure");
 
 ```
 
@@ -197,7 +197,7 @@ var result = UriTemplate.For("/api{?filters*}")
                         .WithParameter("filters", customQueryObject)
                         .ExpandToString();
 
-result.ShouldBeEquivalentTo("/api?kebab-case=1&lowerCamelCase=2&WithMyOwnKey=3");
+result.Should().BeEquivalentTo("/api?kebab-case=1&lowerCamelCase=2&WithMyOwnKey=3");
 ```
 
 `DoLess.UriTemplates` comes with default formatters, available in `DoLess.UriTemplates.Helpers.StringFormatters`:

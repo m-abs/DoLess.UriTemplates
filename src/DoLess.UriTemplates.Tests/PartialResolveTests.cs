@@ -50,7 +50,7 @@ namespace DoLess.UriTemplates.Tests
 
             var result = uriTemplate.WithPartialExpand(false)
                                     .ExpandToString();
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }       
     }
 }

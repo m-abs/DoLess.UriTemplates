@@ -16,7 +16,7 @@ namespace DoLess.UriTemplates.Tests
                                     .WithParameter("options", options)
                                     .WithParameter("filters", filters)
                                     .ExpandToString();
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
 
         public void ShouldQueryObjectBeExpandedAsExpected()
@@ -31,7 +31,7 @@ namespace DoLess.UriTemplates.Tests
                                     .WithParameter("filters", filters)
                                     .ExpandToString();
 
-            result.ShouldBeEquivalentTo("/api?year=1988&genres=action,adventure");
+            result.Should().BeEquivalentTo("/api?year=1988&genres=action,adventure");
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace DoLess.UriTemplates.Tests
                                     .WithParameter("filters", customQueryObject)
                                     .ExpandToString();
 
-            result.ShouldBeEquivalentTo("/api?kebab-case=1&lowerCamelCase=2&WithMyOwnKey=3");
+            result.Should().BeEquivalentTo("/api?kebab-case=1&lowerCamelCase=2&WithMyOwnKey=3");
         }
 
         private static readonly object[] ShouldQueryObjectBeExpandedAsExpectedTestCases =

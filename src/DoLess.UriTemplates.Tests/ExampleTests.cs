@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using FluentAssertions;
+using Microsoft.Extensions.Primitives;
 using NUnit.Framework;
 
 namespace DoLess.UriTemplates.Tests
@@ -13,12 +14,13 @@ namespace DoLess.UriTemplates.Tests
         [Test]
         public void Example01()
         {
-            string uriString = UriTemplate.For("http://example.org/{resource}{?genre,count}")
+            string uriString = UriTemplate.For("http://{domain}/{resource}{?genre,count}")
+                                          .WithParameter("domain", "example.org")
                                           .WithParameter("resource", "books")
                                           .WithParameter("genre", "sci-fi")
                                           .WithParameter("count", 10)
                                           .ExpandToString();
-            uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi&count=10");
+            uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi&count=10");
         }
 
         [Test]
@@ -28,7 +30,7 @@ namespace DoLess.UriTemplates.Tests
                                           .WithParameter("resource", "books")
                                           .WithParameter("genre", "sci-fi", "horror", "fantasy")
                                           .ExpandToString();
-            uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi,horror,fantasy");
+            uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi,horror,fantasy");
         }
 
         [Test]
@@ -38,7 +40,7 @@ namespace DoLess.UriTemplates.Tests
                                           .WithParameter("resource", "books")
                                           .WithParameter("genre", "sci-fi", "horror", "fantasy")
                                           .ExpandToString();
-            uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi&genre=horror&genre=fantasy");
+            uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi&genre=horror&genre=fantasy");
         }
 
         [Test]
@@ -55,7 +57,24 @@ namespace DoLess.UriTemplates.Tests
                                           .WithParameter("resource", "books")
                                           .WithParameter("options", options)
                                           .ExpandToString();
-            uriString.ShouldBeEquivalentTo("http://example.org/books?genre=sci-fi&count=10&author=George%20R.%20R.%20Martin");
+            uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi&count=10&author=George%20R.%20R.%20Martin");
+        }
+
+        [Test]
+        public void Example04b()
+        {
+            Dictionary<string, StringValues> options = new Dictionary<string, StringValues>
+            {
+                ["genre"] = "sci-fi",
+                ["count"] = "10",
+                ["author"] = new[]{ "George R. R. Martin", "Terry Pratchett" },
+            };
+
+            string uriString = UriTemplate.For("http://example.org/{resource}{?options*}")
+                                          .WithParameter("resource", "books")
+                                          .WithParameter("options", options)
+                                          .ExpandToString();
+            uriString.Should().BeEquivalentTo("http://example.org/books?genre=sci-fi&count=10&author=George%20R.%20R.%20Martin&Author=Terry%20Pratchett");
         }
 
         [Test]
@@ -65,7 +84,7 @@ namespace DoLess.UriTemplates.Tests
                                           .WithParameter("resource", "books")
                                           .WithParameter("count", 10)
                                           .ExpandToString();
-            uriString.ShouldBeEquivalentTo("http://example.org/books?count=10");
+            uriString.Should().BeEquivalentTo("http://example.org/books?count=10");
         }
 
         [Test]
@@ -75,7 +94,7 @@ namespace DoLess.UriTemplates.Tests
                                           .WithParameter("count", 10)
                                           .WithPartialExpand()
                                           .ExpandToString();
-            uriString.ShouldBeEquivalentTo("http://example.org/{area}/news?count=10{&type}");
+            uriString.Should().BeEquivalentTo("http://example.org/{area}/news?count=10{&type}");
         }
 
         [Test]
@@ -97,7 +116,7 @@ namespace DoLess.UriTemplates.Tests
                                           .WithValueFormatter(func)
                                           .ExpandToString();
 
-            uriString.ShouldBeEquivalentTo("http://example.org/%283%2C4%29");
+            uriString.Should().BeEquivalentTo("http://example.org/%283%2C4%29");
         }
     }
 }

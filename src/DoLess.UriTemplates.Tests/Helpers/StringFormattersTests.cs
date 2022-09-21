@@ -19,7 +19,7 @@ namespace DoLess.UriTemplates.Tests.Helpers
         public void ShouldBeLowerCamelCase(string source, string expected)
         {
             var result = StringFormatters.ToLowerCamelCase(source);
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace DoLess.UriTemplates.Tests.Helpers
         public void ShouldBeUpperCamelCase(string source, string expected)
         {
             var result = StringFormatters.ToUpperCamelCase(source);
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace DoLess.UriTemplates.Tests.Helpers
         public void ShouldBeLowerSnakeCase(string source, string expected)
         {
             var result = StringFormatters.ToLowerSnakeCase(source);
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
 
         [Test]
@@ -64,7 +64,7 @@ namespace DoLess.UriTemplates.Tests.Helpers
         public void ShouldBeUpperSnakeCase(string source, string expected)
         {
             var result = StringFormatters.ToUpperSnakeCase(source);
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace DoLess.UriTemplates.Tests.Helpers
         public void ShouldBeKebabCase(string source, string expected)
         {
             var result = StringFormatters.ToKebabCase(source);
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace DoLess.UriTemplates.Tests.Helpers
         public void ShouldBeTrainCase(string source, string expected)
         {
             var result = StringFormatters.ToTrainCase(source);
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
     }
 }

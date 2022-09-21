@@ -6,6 +6,7 @@ using System.Text;
 using DoLess.UriTemplates.Entities;
 using DoLess.UriTemplates.Helpers;
 using DoLess.UriTemplates.ValueFormatters;
+using Microsoft.Extensions.Primitives;
 
 namespace DoLess.UriTemplates
 {
@@ -138,6 +139,12 @@ namespace DoLess.UriTemplates
             this.Expand(varSpec, isEmpty, values, this.ExpandValues);
         }
 
+        private void Expand(VarSpec varSpec, IEnumerable<KeyValuePair<string, StringValues>> values)
+        {
+            bool isEmpty = !values.Any();
+            this.Expand(varSpec, isEmpty, values, this.ExpandValues);
+        }
+
         private void Expand(VarSpec varSpec, IEnumerable<KeyValuePair<string, string>> values)
         {
             bool isEmpty = !values.Any();
@@ -171,6 +178,25 @@ namespace DoLess.UriTemplates
 
                 this.builder.AppendEncoded(this.ValueToString(value), this.expressionInfo.AllowReserved);
                 this.builder.Append(separator);
+            }
+        }
+
+        private void ExpandValues(IEnumerable<KeyValuePair<string, StringValues>> values, VarSpec varSpec, char separator)
+        {
+            var isExploded = varSpec.IsExploded;
+
+            var name = varSpec.Name;
+            var pairSeparator = isExploded ? '=' : ',';
+
+            foreach (var pair in values)
+            {
+                foreach (var value in pair.Value)
+                {
+                    this.builder.AppendEncoded(pair.Key, this.expressionInfo.AllowReserved);
+                    this.builder.Append(pairSeparator);
+                    this.builder.AppendEncoded(value, this.expressionInfo.AllowReserved);
+                    this.builder.Append(separator);
+                }
             }
         }
 
@@ -263,6 +289,10 @@ namespace DoLess.UriTemplates
                     break;
 
                 case IEnumerable<KeyValuePair<string, object>> val:
+                    this.Expand(varSpec, val);
+                    break;
+
+                case IEnumerable<KeyValuePair<string, StringValues>> val:
                     this.Expand(varSpec, val);
                     break;
 

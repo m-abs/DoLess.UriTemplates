@@ -78,13 +78,13 @@ namespace DoLess.UriTemplates.Tests
         private static void ShouldFail(UriTemplate uriTemplate, bool isPartial)
         {
             Action job = () => uriTemplate.WithPartialExpand(isPartial).ExpandToString();
-            job.ShouldThrow<UriTemplateException>();
+            job.Should().Throw<UriTemplateException>();
         }
 
         private static void ShouldMatch(UriTemplate uriTemplate, SpecStringTestCase testCase, bool isPartial)
         {
             string result = uriTemplate.WithPartialExpand(isPartial).ExpandToString();
-            result.ShouldBeEquivalentTo(testCase.Result);
+            result.Should().BeEquivalentTo(testCase.Result);
         }
 
         private static void ShouldMatchOne(UriTemplate uriTemplate, SpecListTestCase testCase, bool isPartial)
